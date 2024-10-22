@@ -1,0 +1,40 @@
+.pregled {
+  padding: 20px;
+}
+
+.pregled h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.pregled h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.notification {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+}
+
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.notification-type {
+  color: #d9534f;
+}
+
+.notification-time {
+  color: #5bc0de;
+}
+
+.notification-body p {
+  margin: 5px 0;
+}

@@ -1,0 +1,73 @@
+@import "bootstrap/scss/bootstrap";
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+.app-container {
+    transition: all ease-in-out 0.5s;
+}
+
+main {
+    margin: 0 auto;
+    padding: 32px 0;
+    width: 90%;
+    max-width: 1200px;
+}
+
+.toggle-theme {
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    color: var(--on-background);
+    display: flex;
+    align-items: center;
+    margin: 0 16px;
+}
+
+.toggle-theme {
+    font-size: 36px;
+}
+
+.navbar-menu__button {
+    background-color: transparent;
+    border: 0;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: white;
+    margin: 0 15px 3px;
+}
+
+.navbar-icon {
+    a {
+        font-size: 1rem;
+        color: white;
+
+        svg {
+            font-size: 1.1rem;
+            margin-bottom: 3px;
+        }
+    }
+}
+
+.login-container {
+    h2 {
+        font-size: 1.5rem;
+    }
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}

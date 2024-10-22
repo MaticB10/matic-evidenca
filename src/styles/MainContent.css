@@ -1,0 +1,24 @@
+.main-content {
+    padding: 20px;
+    background-color: #ffffff;
+    flex: 1;
+  }
+  
+  .notification {
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 15px;
+  }
+  
+  .notification-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .notification-body p {
+    margin: 0;
+  }
+  

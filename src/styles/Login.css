@@ -1,0 +1,26 @@
+/* Main container to center the login card */
+.container {
+  display: flex;
+  width: 1920px;
+  height: 1000px;
+  padding: 0px 1820px 900px 0px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.card{
+  width: 475px;
+  height: 536px;
+  flex-shrink: 0;
+}
+
+.card-header{
+  width: 100px;
+  height: 100px;
+}
+
+.logo{
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+}

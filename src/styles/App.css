@@ -1,0 +1,64 @@
+/* App.css */
+.app-container {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 220px; /* Prilagojena širina stranske vrstice */
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #f8f9fa;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.main-content {
+  margin-left: 220px; /* Ujema se z novo širino stranske vrstice */
+  width: calc(100% - 220px);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.header {
+  height: 60px; /* Višina glave */
+  background-color: #007bff;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  position: fixed;
+  top: 0;
+  left: 220px;
+  right: 0;
+  z-index: 1001;
+}
+
+.content-area {
+  flex: 1;
+  margin-top: 60px; /* Ujema se z višino glave */
+  padding: 20px;
+  overflow-y: auto;
+  background-color: #f7f9fc;
+}
+
+/* Prilagoditve za graf in vsebino */
+.chart-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.chart {
+  max-width: 45%; /* Poskrbi, da grafi ne zavzamejo preveč prostora */
+  min-width: 300px;
+  margin: 10px;
+}
+
+

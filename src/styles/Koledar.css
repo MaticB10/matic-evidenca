@@ -1,0 +1,47 @@
+.calendar-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .sidebar {
+    background-color: #f7f7f7;
+    padding: 20px;
+  }
+  
+  .sidebar h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .sidebar ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .sidebar ul li {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #e9ecef;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  
+  .add-event-button {
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  .calendar-section {
+    background-color: white;
+    padding: 20px;
+  }
+  
+  .event-details {
+    position: absolute;
+    background-color: white;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    z-index: 10;
+  }
+  

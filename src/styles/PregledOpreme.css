@@ -1,0 +1,31 @@
+.pregled-opreme {
+  padding: 20px;
+}
+
+.equipment-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.equipment-item {
+  background-color: #003366;
+  color: white;
+  padding: 15px 20px;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  flex: 1;
+  min-width: 200px;
+  border: 2px solid transparent;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.equipment-item:hover {
+  background-color: #005bb5;
+}
+
+.equipment-item.active {
+  border-color: #ff0000;
+}
