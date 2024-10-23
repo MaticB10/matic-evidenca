@@ -46,7 +46,7 @@ function LoginPage() {
           <Card className="shadow-sm">
             <Card.Body className="text-center">
               <img src="https://via.placeholder.com/60" alt="logo" className="mb-3" />
-              <h5 className="mb-4">CROWN</h5>
+              <h5 className="mb-4">Mehanika Basle</h5>
               <h6 className="text-muted mb-3">Login</h6>
 
               {error && <Alert variant="danger">{error}</Alert>}
