@@ -13,32 +13,32 @@ function LoginPage() {
     setError('');
 
     try {
-        const response = await fetch('https://evidenca-back-end.onrender.com/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, password }),
-        });
+      const response = await fetch('https://evidenca-back-end.onrender.com/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-        const data = await response.json();
-        console.log('Response from server:', data);
+      const data = await response.json();
+      console.log('Response from server:', data);
 
-        if (data.error) {
-            setError(data.message || 'Login failed. Please check your credentials.');
-            return;
-        }
+      if (data.error) {
+        setError(data.message || 'Login failed. Please check your credentials.');
+        return;
+      }
 
-        // Store JWT token and user data
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.data));
+      // Store JWT token and user data
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.data));
 
-        window.location.reload();
+      window.location.reload();
     } catch (err) {
-        setError('Something went wrong. Please try again later.');
-        console.error(err);
+      setError('Something went wrong. Please try again later.');
+      console.error(err);
     }
-};
+  };
 
 
 

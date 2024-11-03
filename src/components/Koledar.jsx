@@ -93,33 +93,33 @@ function Koledar() {
 
   const handleSaveChanges = () => {
     if (!selectedEvent || !selectedEvent.id) {
-        console.error('Event ID is missing or undefined.');
-        return;
+      console.error('Event ID is missing or undefined.');
+      return;
     }
 
     // Convert dates to ISO format
     const updatedEvent = {
-        ...selectedEvent,
-        start: new Date(selectedEvent.start).toISOString(),
-        end: new Date(selectedEvent.end).toISOString()
+      ...selectedEvent,
+      start: new Date(selectedEvent.start).toISOString(),
+      end: new Date(selectedEvent.end).toISOString()
     };
 
     console.log('Updating event with ID:', selectedEvent.id);
     console.log('Updated event data:', updatedEvent);
 
     axios.put(`https://evidenca-back-end.onrender.com/update-event/${selectedEvent.id}`, updatedEvent)
-        .then(response => {
-            if (!response.data.error) {
-                setEvents(events.map(event => event.id === selectedEvent.id ? updatedEvent : event));
-                setShowEditModal(false);
-            } else {
-                console.error('Server error during event update:', response.data.error);
-            }
-        })
-        .catch(error => {
-            console.error('Error during event update:', error);
-        });
-};
+      .then(response => {
+        if (!response.data.error) {
+          setEvents(events.map(event => event.id === selectedEvent.id ? updatedEvent : event));
+          setShowEditModal(false);
+        } else {
+          console.error('Server error during event update:', response.data.error);
+        }
+      })
+      .catch(error => {
+        console.error('Error during event update:', error);
+      });
+  };
 
 
 

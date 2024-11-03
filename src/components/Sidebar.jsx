@@ -10,7 +10,7 @@ function Sidebar() {
   const { user, logout } = useContext(AuthContext); 
 
   const handleLogout = () => {
-    const confirmLogout = window.confirm("Ali ste prepričani, da se želite odjaviti?");
+    const confirmLogout = window.confirm('Ali ste prepričani, da se želite odjaviti?');
     if (confirmLogout) {
       logout();
       window.location.reload(); 
@@ -21,14 +21,14 @@ function Sidebar() {
     if (!role) return 'Uporabnik';
 
     switch (role.toLowerCase()) {
-      case 'user':
-        return 'Uporabnik';
-      case 'admin':
-        return 'Delovec';
-      case 'superadmin':
-        return 'Lastnik';
-      default:
-        return 'Uporabnik';
+    case 'user':
+      return 'Uporabnik';
+    case 'admin':
+      return 'Delovec';
+    case 'superadmin':
+      return 'Lastnik';
+    default:
+      return 'Uporabnik';
     }
   };
 

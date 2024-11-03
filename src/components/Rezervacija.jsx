@@ -7,7 +7,7 @@ function Rezervacija() {
   const [isAdmin, setIsAdmin] = useState(true); // Spremenite to glede na dejanskega uporabnika
   const [showModal, setShowModal] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null); // Trenutno izbrani projekt
-  const [chatMessage, setChatMessage] = useState(""); // Sledenje sporočilu
+  const [chatMessage, setChatMessage] = useState(''); // Sledenje sporočilu
   const [projects, setProjects] = useState([]); // Shranjevanje projektov iz baze
 
   // Nove vrednosti za urejanje
@@ -30,12 +30,12 @@ function Rezervacija() {
 
   // Filtriramo zaključene in preklicane projekte
   const completedAndCanceledProjects = projects.filter(
-    (project) => project.status === "Completed" || project.status === "Canceled"
+    (project) => project.status === 'Completed' || project.status === 'Canceled'
   );
 
   // Filtriramo aktivne projekte
   const activeProjects = projects.filter(
-    (project) => project.status !== "Completed" && project.status !== "Canceled"
+    (project) => project.status !== 'Completed' && project.status !== 'Canceled'
   );
 
   const handleProjectClick = (project) => {
@@ -71,7 +71,7 @@ function Rezervacija() {
 
   const handleCloseModal = () => {
     setShowModal(false);
-    setChatMessage("");
+    setChatMessage('');
   };
 
   return (
@@ -97,7 +97,7 @@ function Rezervacija() {
             </thead>
             <tbody>
               {activeProjects.map((project) => (
-                <tr key={project.id} onClick={() => handleProjectClick(project)} style={{ cursor: "pointer" }}>
+                <tr key={project.id} onClick={() => handleProjectClick(project)} style={{ cursor: 'pointer' }}>
                   <td>{project.id}</td>
                   <td>{project.project_name}</td>
                   <td>
@@ -135,7 +135,7 @@ function Rezervacija() {
             </thead>
             <tbody>
               {completedAndCanceledProjects.map((project) => (
-                <tr key={project.id} onClick={() => handleProjectClick(project)} style={{ cursor: "pointer" }}>
+                <tr key={project.id} onClick={() => handleProjectClick(project)} style={{ cursor: 'pointer' }}>
                   <td>{project.id}</td>
                   <td>{project.project_name}</td>
                   <td>
@@ -214,33 +214,33 @@ function Rezervacija() {
 
 function getPriorityColor(priority) {
   switch (priority) {
-    case 'High':
-      return 'danger';
-    case 'Low':
-      return 'success';
-    case 'Normal':
-      return 'warning';
-    default:
-      return 'secondary';
+  case 'High':
+    return 'danger';
+  case 'Low':
+    return 'success';
+  case 'Normal':
+    return 'warning';
+  default:
+    return 'secondary';
   }
 }
 
 function getStatusColor(status) {
   switch (status) {
-    case 'In Progress':
-      return 'primary';
-    case 'Completed':
-      return 'success';
-    case 'Testing':
-      return 'info';
-    case 'Canceled':
-      return 'danger';
-    case 'Pending':
-      return 'secondary';
-    case 'Waiting':
-      return 'warning';
-    default:
-      return 'secondary';
+  case 'In Progress':
+    return 'primary';
+  case 'Completed':
+    return 'success';
+  case 'Testing':
+    return 'info';
+  case 'Canceled':
+    return 'danger';
+  case 'Pending':
+    return 'secondary';
+  case 'Waiting':
+    return 'warning';
+  default:
+    return 'secondary';
   }
 }
 
