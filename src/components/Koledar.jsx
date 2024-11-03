@@ -28,7 +28,7 @@ function Koledar() {
 
   // Naložimo dogodke iz baze
   useEffect(() => {
-    axios.get('http://localhost:8081/events')
+    axios.get('https://evidenca-back-end.onrender.com/events')
       .then(response => {
         if (!response.data.error) {
           setEvents(response.data.data.map(event => ({
@@ -48,7 +48,7 @@ function Koledar() {
   // Dodajanje novega dogodka
   const handleAddEvent = () => {
     const eventToAdd = { ...newEvent, user_id: user.id };
-    axios.post('http://localhost:8081/add-event', eventToAdd).then((response) => {
+    axios.post('https://evidenca-back-end.onrender.com/add-event', eventToAdd).then((response) => {
       if (!response.data.error) {
         setEvents([...events, {
           ...response.data.data,
@@ -107,7 +107,7 @@ function Koledar() {
     console.log('Updating event with ID:', selectedEvent.id);
     console.log('Updated event data:', updatedEvent);
 
-    axios.put(`http://localhost:8081/update-event/${selectedEvent.id}`, updatedEvent)
+    axios.put(`https://evidenca-back-end.onrender.com/update-event/${selectedEvent.id}`, updatedEvent)
         .then(response => {
             if (!response.data.error) {
                 setEvents(events.map(event => event.id === selectedEvent.id ? updatedEvent : event));

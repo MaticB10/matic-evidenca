@@ -17,7 +17,7 @@ function Rezervacija() {
 
   // Pridobimo projekte iz API-ja
   useEffect(() => {
-    axios.get('http://localhost:8081/projects')
+    axios.get('https://evidenca-back-end.onrender.com/projects')
       .then(response => {
         if (!response.data.error) {
           setProjects(response.data.data); // Nastavimo projekte iz baze
@@ -48,7 +48,7 @@ function Rezervacija() {
 
   const handleSaveChanges = () => {
     // Pošlji urejene podatke na strežnik
-    axios.put(`http://localhost:8081/projects/${selectedProject.id}`, {
+    axios.put(`https://evidenca-back-end.onrender.com/projects/${selectedProject.id}`, {
       priority: editedPriority,
       status: editedStatus,
       progress: editedProgress,

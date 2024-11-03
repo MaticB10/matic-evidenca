@@ -20,7 +20,7 @@ function Shramba() {
   }, []);
 
   const fetchInventory = () => {
-    axios.get('http://localhost:8081/inventory')
+    axios.get('https://evidenca-back-end.onrender.com/inventory')
       .then(response => {
         if (!response.data.error) {
           setInventory(response.data.data);
@@ -34,7 +34,7 @@ function Shramba() {
   const handleAddNewItem = () => {
     if (isEditMode) {
       // Urejanje obstoječega artikla
-      axios.put(`http://localhost:8081/inventory/${editItemId}`, newItem)
+      axios.put(`https://evidenca-back-end.onrender.com/inventory/${editItemId}`, newItem)
         .then(response => {
           if (!response.data.error) {
             fetchInventory();
@@ -49,7 +49,7 @@ function Shramba() {
         });
     } else {
       // Dodajanje novega artikla
-      axios.post('http://localhost:8081/inventory', newItem)
+      axios.post('https://evidenca-back-end.onrender.com/inventory', newItem)
         .then(response => {
           if (!response.data.error) {
             fetchInventory();
@@ -77,7 +77,7 @@ function Shramba() {
   };
 
   const handleDeleteItem = (itemId) => {
-    axios.delete(`http://localhost:8081/inventory/${itemId}`)
+    axios.delete(`https://evidenca-back-end.onrender.com/inventory/${itemId}`)
       .then(response => {
         if (!response.data.error) {
           fetchInventory();

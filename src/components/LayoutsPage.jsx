@@ -19,7 +19,7 @@ function LayoutsPage() {
 
   useEffect(() => {
     if (user.role === 'superadmin') {
-      axios.get('http://localhost:8081/users')
+      axios.get('https://evidenca-back-end.onrender.com/users')
         .then(response => {
           if (!response.data.error) {
             setUsers(response.data.data);
@@ -30,7 +30,7 @@ function LayoutsPage() {
         });
     }
 
-    axios.get(`http://localhost:8081/vehicles/${user.id}`)
+    axios.get(`https://evidenca-back-end.onrender.com/vehicles/${user.id}`)
       .then(response => {
         if (!response.data.error) {
           setUserVehicles(response.data.data);
@@ -65,7 +65,7 @@ function LayoutsPage() {
     });
 
     try {
-      const response = await axios.post('http://localhost:8081/add-vehicle', formData, {
+      const response = await axios.post('https://evidenca-back-end.onrender.com/add-vehicle', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

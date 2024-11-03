@@ -13,7 +13,7 @@ function ChangePassword() {
 
   useEffect(() => {
     if (user && (user.rank === 'Super Admin' || user.rank === 'Admin')) {
-      fetch('http://localhost:8081/uporabniki')
+      fetch('https://evidenca-back-end.onrender.com/uporabniki')
         .then(response => response.json())
         .then(data => {
           if (!data.error) {
@@ -75,7 +75,7 @@ function ChangePassword() {
     }
 
     try {
-      const response = await fetch('http://localhost:8081/change-password', {
+      const response = await fetch('https://evidenca-back-end.onrender.com/change-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

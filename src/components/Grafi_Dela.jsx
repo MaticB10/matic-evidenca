@@ -11,7 +11,7 @@ function Graphs() {
 
   useEffect(() => {
     // Pridobivanje podatkov iz baze preko API-ja
-    axios.get('http://localhost:8081/projects') // preveri pravilen API endpoint
+    axios.get('https://evidenca-back-end.onrender.com/projects') // preveri pravilen API endpoint
       .then(response => {
         if (!response.data.error) {
           const projects = response.data.data;
