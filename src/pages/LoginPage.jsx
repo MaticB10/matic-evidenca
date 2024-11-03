@@ -22,21 +22,24 @@ function LoginPage() {
         });
 
         const data = await response.json();
+        console.log('Response from server:', data);
+
         if (data.error) {
             setError(data.message || 'Login failed. Please check your credentials.');
             return;
         }
 
-        // Shrani JWT žeton v lokalno shrambo
+        // Store JWT token and user data
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.data));
 
-        window.location.reload()
+        window.location.reload();
     } catch (err) {
         setError('Something went wrong. Please try again later.');
         console.error(err);
     }
-  };
+};
+
 
 
   return (
