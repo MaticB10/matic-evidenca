@@ -17,8 +17,6 @@ function Koledar() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [position, setPosition] = useState({ top: 0, left: 0 });
 
-
-  // Funkcija za preverjanje in formatiranje datuma
   const formatDate = (date) => {
     if (date && !isNaN(new Date(date).getTime())) {
       return new Date(date);
@@ -26,7 +24,6 @@ function Koledar() {
     return null;
   };
 
-  // Naložimo dogodke iz baze
   useEffect(() => {
     axios.get('https://evidenca-back-end.onrender.com/events')
       .then(response => {
@@ -36,7 +33,7 @@ function Koledar() {
             title: event.title,
             start: formatDate(event.start),
             end: formatDate(event.end),
-            user_name: `${event.first_name} ${event.last_name}` // Assuming API provides user name and surname
+            user_name: `${event.first_name} ${event.last_name}`
           })));
         }
       })
@@ -45,7 +42,6 @@ function Koledar() {
       });
   }, []);
 
-  // Dodajanje novega dogodka
   const handleAddEvent = () => {
     const eventToAdd = { ...newEvent, user_id: user.id };
     axios.post('https://evidenca-back-end.onrender.com/add-event', eventToAdd).then((response) => {
@@ -54,7 +50,7 @@ function Koledar() {
           ...response.data.data,
           start: formatDate(response.data.data.start),
           end: formatDate(response.data.data.end),
-          user_name: `${user.name} ${user.surname}` // Adding current user name and surname
+          user_name: `${user.name} ${user.surname}`
         }]);
         setShowModal(false);
         setNewEvent({ title: '', start: '', end: '' });
@@ -97,15 +93,11 @@ function Koledar() {
       return;
     }
 
-    // Convert dates to ISO format
     const updatedEvent = {
       ...selectedEvent,
       start: new Date(selectedEvent.start).toISOString(),
       end: new Date(selectedEvent.end).toISOString()
     };
-
-    console.log('Updating event with ID:', selectedEvent.id);
-    console.log('Updated event data:', updatedEvent);
 
     axios.put(`https://evidenca-back-end.onrender.com/update-event/${selectedEvent.id}`, updatedEvent)
       .then(response => {
@@ -121,9 +113,27 @@ function Koledar() {
       });
   };
 
+  const handleDeleteEvent = () => {
+    if (!selectedEvent || !selectedEvent.id) {
+      console.error('Event ID is missing or undefined.');
+      return;
+    }
 
+    axios.delete(`https://evidenca-back-end.onrender.com/delete-event/${selectedEvent.id}`)
+      .then(response => {
+        if (!response.data.error) {
+          setEvents(events.filter(event => event.id !== selectedEvent.id));
+          setShowEditModal(false);
+          setSelectedEvent(null);
+        } else {
+          console.error('Server error during event deletion:', response.data.error);
+        }
+      })
+      .catch(error => {
+        console.error('Error during event deletion:', error);
+      });
+  };
 
-  // Filtriramo dogodke glede na vlogo
   const filteredEvents = user.role === 'superadmin' ? events : events.filter(event => event.user_id === user.id);
 
   return (
@@ -153,45 +163,6 @@ function Koledar() {
           />
         </Col>
       </Row>
-
-      {/* Pojavno okno z informacijami o dogodku */}
-      {selectedEvent && (
-        <div className="event-details" style={{
-          position: 'absolute',
-          top: position.top,
-          left: position.left,
-          backgroundColor: '#f8f9fa',
-          padding: '10px',
-          border: '1px solid #ddd',
-          borderRadius: '8px',
-          zIndex: 1000
-        }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h5>{selectedEvent.title}</h5>
-            <button
-              style={{
-                background: 'none',
-                border: 'none',
-                fontSize: '16px',
-                cursor: 'pointer',
-                color: '#000'
-              }}
-              onClick={handleEventMouseOut}
-            >
-              X
-            </button>
-          </div>
-          <p><strong>Začetek:</strong> {selectedEvent.start ? selectedEvent.start.toLocaleString() : 'N/A'}</p>
-          <p><strong>Konec:</strong> {selectedEvent.end ? selectedEvent.end.toLocaleString() : 'N/A'}</p>
-          <p><strong>Uporabnik:</strong> {user.role === 'superadmin' ? selectedEvent.user_name : 'Zasedeno'}</p>
-          {user.role === 'superadmin' && (
-            <Button variant="warning" onClick={handleEditClick}>
-              Uredi dogodek
-            </Button>
-          )}
-        </div>
-      )}
-
 
       {/* Modal za dodajanje novega termina */}
       <Modal show={showModal} onHide={handleCloseModal}>
@@ -274,6 +245,9 @@ function Koledar() {
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowEditModal(false)}>
             Zapri
+          </Button>
+          <Button variant="danger" onClick={handleDeleteEvent}>
+            Izbriši dogodek
           </Button>
           <Button variant="primary" onClick={handleSaveChanges}>
             Shrani spremembe
