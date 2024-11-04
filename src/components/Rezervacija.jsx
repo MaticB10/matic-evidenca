@@ -6,7 +6,7 @@ import '../styles/CustomTable.css';
 function Rezervacija() {
   const [isAdmin, setIsAdmin] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [showAddModal, setShowAddModal] = useState(false); // Novo: Modal za dodajanje projekta
+  const [showAddModal, setShowAddModal] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [projects, setProjects] = useState([]);
 
@@ -31,6 +31,14 @@ function Rezervacija() {
         console.error('Napaka pri pridobivanju projektov:', error);
       });
   }, []);
+
+  // Filtriramo projekte glede na njihov status
+  const activeProjects = projects.filter(
+    (project) => project.status !== 'Completed' && project.status !== 'Canceled'
+  );
+  const completedOrCanceledProjects = projects.filter(
+    (project) => project.status === 'Completed' || project.status === 'Canceled'
+  );
 
   const handleProjectClick = (project) => {
     setSelectedProject(project);
@@ -98,6 +106,7 @@ function Rezervacija() {
         </Col>
       </Row>
 
+      {/* Tabela za aktivne projekte */}
       <Row className="mt-4">
         <Col>
           <h4>Aktivni projekti</h4>
@@ -112,7 +121,38 @@ function Rezervacija() {
               </tr>
             </thead>
             <tbody>
-              {projects.map((project) => (
+              {activeProjects.map((project) => (
+                <tr key={project.id} onClick={() => handleProjectClick(project)} style={{ cursor: 'pointer' }}>
+                  <td>{project.id}</td>
+                  <td>{project.project_name}</td>
+                  <td><Badge bg={getPriorityColor(project.priority)}>{project.priority}</Badge></td>
+                  <td><Badge bg={getStatusColor(project.status)}>{project.status}</Badge></td>
+                  <td>
+                    <ProgressBar now={project.progress} label={`${project.progress}%`} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </Col>
+      </Row>
+
+      {/* Tabela za zaključene in zavrnjene projekte */}
+      <Row className="mt-4">
+        <Col>
+          <h4>Zaključeni in zavrnjeni projekti</h4>
+          <Table striped bordered hover className="custom-table">
+            <thead>
+              <tr>
+                <th>#ID</th>
+                <th>Projekt</th>
+                <th>Prioriteta</th>
+                <th>Status</th>
+                <th>Napredek</th>
+              </tr>
+            </thead>
+            <tbody>
+              {completedOrCanceledProjects.map((project) => (
                 <tr key={project.id} onClick={() => handleProjectClick(project)} style={{ cursor: 'pointer' }}>
                   <td>{project.id}</td>
                   <td>{project.project_name}</td>
