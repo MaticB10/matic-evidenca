@@ -59,8 +59,7 @@ function RegisterPage() {
         <Col md={{ span: 4, offset: 4 }}>
           <Card className="shadow-sm">
             <Card.Body className="text-center">
-              <img src="https://via.placeholder.com/60" alt="logo" className="mb-3" />
-              <h5 className="mb-4">CROWN</h5>
+              <img src="https://media.discordapp.net/attachments/714802276803543122/1298719826352541818/image.png?ex=6729bfd7&is=67286e57&hm=fe3d44cc51ec606217154247c110727e9457288bd5bee6fe0b17ccf626227c2c&=&format=webp&quality=lossless&width=526&height=109" alt="logo" className="mb-3" />
               <h6 className="text-muted mb-3">REGISTER</h6>
 
               {error && <Alert variant="danger">{error}</Alert>}

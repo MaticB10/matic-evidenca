@@ -48,7 +48,7 @@ function LoginPage() {
         <Col md={{ span: 4, offset: 4 }}>
           <Card className="shadow-sm">
             <Card.Body className="text-center">
-              <img src="https://media.discordapp.net/attachments/714802276803543122/1298719826352541818/image.png?ex=671a9697&is=67194517&hm=696ee9701aa6987085dfc5b105d466b9bcf25eda7cb5087438936ce02f867dc1&=&format=webp&quality=lossless" alt="logo" className="mb-3" />
+              <img src="https://media.discordapp.net/attachments/714802276803543122/1298719826352541818/image.png?ex=6729bfd7&is=67286e57&hm=fe3d44cc51ec606217154247c110727e9457288bd5bee6fe0b17ccf626227c2c&=&format=webp&quality=lossless&width=526&height=109" alt="logo" className="mb-3" />
               <h6 className="text-muted mb-3">Login</h6>
 
               {error && <Alert variant="danger">{error}</Alert>}
