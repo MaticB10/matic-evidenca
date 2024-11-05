@@ -2,20 +2,23 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { AuthContext } from '../contexts/AuthContext';
-import '../styles/LayoutsPage.css'; // Assuming you will add custom styles here
+import '../styles/LayoutsPage.css';
 
 function LayoutsPage() {
-  const { user } = useContext(AuthContext); 
+  const { user } = useContext(AuthContext);
   const [vehicleData, setVehicleData] = useState({
     make: '',
     model: '',
     year: '',
     licensePlate: '',
-    userId: '' 
+    userId: '',
+    modelId: ''
   });
-  const [selectedFiles, setSelectedFiles] = useState([]);
-  const [users, setUsers] = useState([]); 
-  const [userVehicles, setUserVehicles] = useState([]); 
+  const [users, setUsers] = useState([]);
+  const [userVehicles, setUserVehicles] = useState([]);
+  const [brands, setBrands] = useState([]);
+  const [models, setModels] = useState([]);
+  const [filteredModels, setFilteredModels] = useState([]);
 
   useEffect(() => {
     if (user.role === 'superadmin') {
@@ -39,6 +42,23 @@ function LayoutsPage() {
       .catch(error => {
         console.error('Error fetching vehicles:', error);
       });
+
+    // Fetch vehicle brands and models
+    axios.get('https://evidenca-back-end.onrender.com/vehicle-brands')
+      .then(response => {
+        setBrands(response.data.data);
+      })
+      .catch(error => {
+        console.error('Error fetching vehicle brands:', error);
+      });
+
+    axios.get('https://evidenca-back-end.onrender.com/vehicle-models')
+      .then(response => {
+        setModels(response.data.data);
+      })
+      .catch(error => {
+        console.error('Error fetching vehicle models:', error);
+      });
   }, [user.id, user.role]);
 
   const handleInputChange = (e) => {
@@ -46,33 +66,29 @@ function LayoutsPage() {
     setVehicleData({ ...vehicleData, [name]: value });
   };
 
-  const handleFileChange = (e) => {
-    setSelectedFiles([...e.target.files]);
+  const handleBrandChange = (e) => {
+    const selectedBrandId = e.target.value;
+    setVehicleData({ ...vehicleData, make: selectedBrandId, modelId: '' });
+    setFilteredModels(models.filter(model => model.brand_id === parseInt(selectedBrandId)));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append('make', vehicleData.make);
-    formData.append('model', vehicleData.model);
-    formData.append('year', vehicleData.year);
-    formData.append('licensePlate', vehicleData.licensePlate);
-    formData.append('userId', vehicleData.userId || user.id);
-
-    selectedFiles.forEach((file, index) => {
-      formData.append(`file_${index}`, file);
-    });
+    const formData = {
+      make: vehicleData.make,
+      model: vehicleData.model,
+      year: vehicleData.year,
+      licensePlate: vehicleData.licensePlate,
+      userId: vehicleData.userId || user.id,
+      modelId: vehicleData.modelId
+    };
 
     try {
-      const response = await axios.post('https://evidenca-back-end.onrender.com/add-vehicle', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const response = await axios.post('https://evidenca-back-end.onrender.com/add-vehicle', formData);
 
       console.log('Vehicle successfully added:', response.data);
-      alert('Vehicle and images successfully added.');
+      alert('Vehicle successfully added.');
     } catch (error) {
       console.error('Error saving vehicle data:', error);
       alert('Error saving vehicle data.');
@@ -83,7 +99,7 @@ function LayoutsPage() {
     <Container fluid className="mt-4">
       <Row>
         <Col>
-          <h3>Form Elements</h3>
+          <h3>Dodajanje in posodablanje vozila</h3>
         </Col>
       </Row>
 
@@ -102,32 +118,43 @@ function LayoutsPage() {
 
       {user.role === 'superadmin' && (
         <Row className="mt-4">
-          {/* Form Section */}
           <Col md={6}>
             <Card className="mb-4">
               <Card.Body>
                 <Card.Title>Vehicle Information</Card.Title>
-                <Form>
+                <Form onSubmit={handleSubmit}>
                   <Form.Group controlId="make">
-                    <Form.Label>Make</Form.Label>
+                    <Form.Label>Brand</Form.Label>
                     <Form.Control
-                      type="text"
-                      placeholder="Enter vehicle make"
+                      as="select"
                       name="make"
                       value={vehicleData.make}
-                      onChange={handleInputChange}
-                    />
+                      onChange={handleBrandChange}
+                    >
+                      <option value="">Select a brand</option>
+                      {brands.map((brand) => (
+                        <option key={brand.id} value={brand.id}>
+                          {brand.name}
+                        </option>
+                      ))}
+                    </Form.Control>
                   </Form.Group>
 
                   <Form.Group controlId="model" className="mt-3">
                     <Form.Label>Model</Form.Label>
                     <Form.Control
-                      type="text"
-                      placeholder="Enter vehicle model"
-                      name="model"
-                      value={vehicleData.model}
-                      onChange={handleInputChange}
-                    />
+                      as="select"
+                      name="modelId"
+                      value={vehicleData.modelId}
+                      onChange={(e) => setVehicleData({ ...vehicleData, modelId: e.target.value })}
+                    >
+                      <option value="">Select a model</option>
+                      {filteredModels.map((model) => (
+                        <option key={model.id} value={model.id}>
+                          {model.model_name}
+                        </option>
+                      ))}
+                    </Form.Control>
                   </Form.Group>
 
                   <Form.Group controlId="year" className="mt-3">
@@ -168,29 +195,8 @@ function LayoutsPage() {
                       ))}
                     </Form.Control>
                   </Form.Group>
-                </Form>
-              </Card.Body>
-            </Card>
-          </Col>
 
-          {/* File Upload Section */}
-          <Col md={6}>
-            <Card className="mb-4">
-              <Card.Body className="file-upload-section">
-                <Card.Title>Upload Images</Card.Title>
-                <Form>
-                  <Form.Group controlId="fileUpload">
-                    <Form.Label>Upload vehicle images</Form.Label>
-                    <Form.Control
-                      type="file"
-                      multiple
-                      onChange={handleFileChange}
-                    />
-                  </Form.Group>
-                  <div className="drag-drop-area">
-                    <span>Select or Drop Files here</span>
-                  </div>
-                  <Button variant="primary" className="mt-3" onClick={handleSubmit}>
+                  <Button variant="primary" type="submit" className="mt-3">
                     Save
                   </Button>
                 </Form>
