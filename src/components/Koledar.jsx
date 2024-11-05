@@ -132,11 +132,6 @@ function Koledar() {
       <Row>
         <Col>
           <h3>Koledar</h3>
-          {user.role !== 'user' && (
-            <Button variant="primary" className="mb-3" onClick={() => setShowModal(true)}>
-              Dodaj nov termin
-            </Button>
-          )}
         </Col>
       </Row>
 
