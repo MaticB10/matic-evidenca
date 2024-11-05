@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Container, Row, Col, Button, Modal, Form, Tabs, Tab } from 'react-bootstrap';
+import { Container, Row, Col, Modal, Form, Tabs, Tab } from 'react-bootstrap';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -11,8 +11,6 @@ const localizer = momentLocalizer(moment);
 function Koledar() {
   const { user } = useContext(AuthContext);
   const [events, setEvents] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [newEvent, setNewEvent] = useState({ title: '', start: '', end: '' });
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [position, setPosition] = useState({ top: 0, left: 0 });
@@ -46,30 +44,6 @@ function Koledar() {
       .catch(error => {
         console.error('Napaka pri pridobivanju dogodkov:', error);
       });
-  };
-
-  const handleAddEvent = () => {
-    const eventToAdd = { ...newEvent, user_id: user.id, calendar: activeCalendar };
-    axios.post('https://evidenca-back-end.onrender.com/add-event', eventToAdd).then((response) => {
-      if (!response.data.error) {
-        setEvents([...events, {
-          ...response.data.data,
-          start: formatDate(response.data.data.start),
-          end: formatDate(response.data.data.end),
-          calendar: activeCalendar,
-          user_name: `${user.name} ${user.surname}`
-        }]);
-        setShowModal(false);
-        setNewEvent({ title: '', start: '', end: '' });
-      }
-    }).catch(error => {
-      console.error('Napaka pri dodajanju dogodka:', error);
-    });
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setNewEvent({ title: '', start: '', end: '' });
   };
 
   const handleEventMouseOver = (event, e) => {
@@ -132,11 +106,6 @@ function Koledar() {
       <Row>
         <Col>
           <h3>Koledar</h3>
-          {user.role !== 'user' && (
-            <Button variant="primary" className="mb-3" onClick={() => setShowModal(true)}>
-              Dodaj nov termin
-            </Button>
-          )}
         </Col>
       </Row>
 
@@ -163,13 +132,51 @@ function Koledar() {
         </Col>
       </Row>
 
-      {/* Modals for adding and editing events */}
-      <Modal show={showModal} onHide={handleCloseModal}>
-        {/* Modal content for adding events */}
-      </Modal>
-
+      {/* Modal for editing events */}
       <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
-        {/* Modal content for editing events */}
+        <Modal.Header closeButton>
+          <Modal.Title>Uredi dogodek</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group controlId="eventTitleEdit">
+              <Form.Label>Naslov</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Vnesi naslov termina"
+                value={selectedEvent?.title || ''}
+                onChange={(e) => setSelectedEvent({ ...selectedEvent, title: e.target.value })}
+              />
+            </Form.Group>
+            <Form.Group controlId="eventStartEdit" className="mt-3">
+              <Form.Label>Začetek</Form.Label>
+              <Form.Control
+                type="datetime-local"
+                value={selectedEvent?.start ? new Date(selectedEvent.start).toISOString().substring(0, 16) : ''}
+                onChange={(e) => setSelectedEvent({ ...selectedEvent, start: e.target.value })}
+              />
+            </Form.Group>
+            <Form.Group controlId="eventEndEdit" className="mt-3">
+              <Form.Label>Konec</Form.Label>
+              <Form.Control
+                type="datetime-local"
+                value={selectedEvent?.end ? new Date(selectedEvent.end).toISOString().substring(0, 16) : ''}
+                onChange={(e) => setSelectedEvent({ ...selectedEvent, end: e.target.value })}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowEditModal(false)}>
+            Zapri
+          </Button>
+          <Button variant="danger" onClick={handleDeleteEvent}>
+            Izbriši dogodek
+          </Button>
+          <Button variant="primary" onClick={handleSaveChanges}>
+            Shrani spremembe
+          </Button>
+        </Modal.Footer>
       </Modal>
     </Container>
   );
