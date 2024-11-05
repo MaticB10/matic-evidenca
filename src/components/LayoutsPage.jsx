@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
+import { Container, Card, Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { AuthContext } from '../contexts/AuthContext';
 import '../styles/LayoutsPage.css';
@@ -96,115 +96,64 @@ function LayoutsPage() {
   };
 
   return (
-    <Container fluid className="mt-4">
-      <Row>
-        <Col>
-          <h3>Dodajanje in posodablanje vozila</h3>
-        </Col>
-      </Row>
+    <Container className="mt-5">
+      <h3>Dodajanje in posodablanje vozila</h3>
+      <Card className="mt-4">
+        <Card.Body>
+          <h5 className="card-title">Vehicle Information</h5>
+          <Form onSubmit={handleSubmit} className="row gy-3">
+            {/* Brand Selection */}
+            <Form.Group controlId="brandSelect" className="col-12">
+              <Form.Label>Brand</Form.Label>
+              <Form.Control as="select" name="make" value={vehicleData.make} onChange={handleBrandChange} required>
+                <option value="">Select a brand</option>
+                {brands.map((brand) => (
+                  <option key={brand.id} value={brand.id}>{brand.name}</option>
+                ))}
+              </Form.Control>
+            </Form.Group>
 
-      {user.role === 'user' && (
-        <Row>
-          <Col>
-            <h4>Your Vehicles</h4>
-            <ul>
-              {userVehicles.map((vehicle) => (
-                <li key={vehicle.id}>{vehicle.make} {vehicle.model} - {vehicle.license_plate}</li>
-              ))}
-            </ul>
-          </Col>
-        </Row>
-      )}
+            {/* Model Selection */}
+            <Form.Group controlId="modelSelect" className="col-12">
+              <Form.Label>Model</Form.Label>
+              <Form.Control as="select" name="modelId" value={vehicleData.modelId} onChange={handleInputChange} required>
+                <option value="">Select a model</option>
+                {filteredModels.map((model) => (
+                  <option key={model.id} value={model.id}>{model.model_name}</option>
+                ))}
+              </Form.Control>
+            </Form.Group>
 
-      {user.role === 'superadmin' && (
-        <Row className="mt-4">
-          <Col md={6}>
-            <Card className="mb-4">
-              <Card.Body>
-                <Card.Title>Vehicle Information</Card.Title>
-                <Form onSubmit={handleSubmit}>
-                  <Form.Group controlId="make">
-                    <Form.Label>Brand</Form.Label>
-                    <Form.Control
-                      as="select"
-                      name="make"
-                      value={vehicleData.make}
-                      onChange={handleBrandChange}
-                    >
-                      <option value="">Select a brand</option>
-                      {brands.map((brand) => (
-                        <option key={brand.id} value={brand.id}>
-                          {brand.name}
-                        </option>
-                      ))}
-                    </Form.Control>
-                  </Form.Group>
+            {/* Year Input */}
+            <Form.Group controlId="yearInput" className="col-12">
+              <Form.Label>Year</Form.Label>
+              <Form.Control type="number" placeholder="Enter vehicle year" name="year" value={vehicleData.year} onChange={handleInputChange} required />
+            </Form.Group>
 
-                  <Form.Group controlId="model" className="mt-3">
-                    <Form.Label>Model</Form.Label>
-                    <Form.Control
-                      as="select"
-                      name="modelId"
-                      value={vehicleData.modelId}
-                      onChange={(e) => setVehicleData({ ...vehicleData, modelId: e.target.value })}
-                    >
-                      <option value="">Select a model</option>
-                      {filteredModels.map((model) => (
-                        <option key={model.id} value={model.id}>
-                          {model.model_name}
-                        </option>
-                      ))}
-                    </Form.Control>
-                  </Form.Group>
+            {/* License Plate Input */}
+            <Form.Group controlId="licensePlateInput" className="col-12">
+              <Form.Label>License Plate</Form.Label>
+              <Form.Control type="text" placeholder="Enter vehicle license plate" name="licensePlate" value={vehicleData.licensePlate} onChange={handleInputChange} required />
+            </Form.Group>
 
-                  <Form.Group controlId="year" className="mt-3">
-                    <Form.Label>Year</Form.Label>
-                    <Form.Control
-                      type="number"
-                      placeholder="Enter vehicle year"
-                      name="year"
-                      value={vehicleData.year}
-                      onChange={handleInputChange}
-                    />
-                  </Form.Group>
+            {/* User Selection */}
+            <Form.Group controlId="userSelect" className="col-12">
+              <Form.Label>Select User</Form.Label>
+              <Form.Control as="select" name="userId" value={vehicleData.userId} onChange={handleInputChange} required>
+                <option value="">Select a user</option>
+                {users.map((usr) => (
+                  <option key={usr.id} value={usr.id}>{usr.first_name} {usr.last_name}</option>
+                ))}
+              </Form.Control>
+            </Form.Group>
 
-                  <Form.Group controlId="licensePlate" className="mt-3">
-                    <Form.Label>License Plate</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter vehicle license plate"
-                      name="licensePlate"
-                      value={vehicleData.licensePlate}
-                      onChange={handleInputChange}
-                    />
-                  </Form.Group>
-
-                  <Form.Group controlId="userId" className="mt-3">
-                    <Form.Label>Select User</Form.Label>
-                    <Form.Control
-                      as="select"
-                      name="userId"
-                      value={vehicleData.userId}
-                      onChange={handleInputChange}
-                    >
-                      <option value="">Select a user</option>
-                      {users.map((usr) => (
-                        <option key={usr.id} value={usr.id}>
-                          {usr.first_name} {usr.last_name}
-                        </option>
-                      ))}
-                    </Form.Control>
-                  </Form.Group>
-
-                  <Button variant="primary" type="submit" className="mt-3">
-                    Save
-                  </Button>
-                </Form>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      )}
+            {/* Submit Button */}
+            <div className="col-12">
+              <Button type="submit" variant="primary" className="w-100">Save</Button>
+            </div>
+          </Form>
+        </Card.Body>
+      </Card>
     </Container>
   );
 }

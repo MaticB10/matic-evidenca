@@ -1,33 +1,22 @@
-/* LayoutsPage.css */
-.file-upload-section {
-    text-align: center;
-  }
-  
-  .drag-drop-area {
-    border: 2px dashed #aaa;
-    padding: 20px;
-    margin-top: 10px;
-    background-color: #f9f9f9;
-    color: #888;
-    cursor: pointer;
-  }
-  
-  .drag-drop-area span {
-    display: block;
-    font-size: 16px;
-    margin-top: 10px;
-  }
-  
-  h3, h4 {
-    color: #3a3a3a;
-  }
-  
-  .card {
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .card-title {
-    font-size: 20px;
-    font-weight: bold;
-  }
-  
+.container {
+  max-width: 600px;
+}
+
+.card {
+  border: 1px solid #d3d3d3;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.form-label {
+  font-weight: 500;
+}
+
+.btn-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
